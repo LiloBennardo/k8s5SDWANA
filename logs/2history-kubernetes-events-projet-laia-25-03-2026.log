@@ -1,0 +1,12 @@
+NAMESPACE               LAST SEEN   TYPE      REASON              OBJECT                                            MESSAGE
+caddy-laia-25-03-2026   30m         Warning   Unhealthy           pod/caddy-laia-25-03-2026-5b454b87d6-j9rfz        Readiness probe failed: Get "http://10.244.0.80:9090/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+prod-laia-25-03-2026    10m         Normal    Scheduled           pod/ecommerce-laia-25-03-2026-5f6bf47b4c-n82jz    Successfully assigned prod-laia-25-03-2026/ecommerce-laia-25-03-2026-5f6bf47b4c-n82jz to minikube
+prod-laia-25-03-2026    7m41s       Normal    Pulling             pod/ecommerce-laia-25-03-2026-5f6bf47b4c-n82jz    Pulling image "tomcruise57/rocket-ecommerce-lia-25-03-2026:v2"
+prod-laia-25-03-2026    7m40s       Warning   Failed              pod/ecommerce-laia-25-03-2026-5f6bf47b4c-n82jz    Failed to pull image "tomcruise57/rocket-ecommerce-lia-25-03-2026:v2": Error response from daemon: manifest for tomcruise57/rocket-ecommerce-lia-25-03-2026:v2 not found: manifest unknown: manifest unknown
+prod-laia-25-03-2026    7m40s       Warning   Failed              pod/ecommerce-laia-25-03-2026-5f6bf47b4c-n82jz    Error: ErrImagePull
+prod-laia-25-03-2026    5m41s       Normal    BackOff             pod/ecommerce-laia-25-03-2026-5f6bf47b4c-n82jz    Back-off pulling image "tomcruise57/rocket-ecommerce-lia-25-03-2026:v2"
+prod-laia-25-03-2026    5m51s       Warning   Failed              pod/ecommerce-laia-25-03-2026-5f6bf47b4c-n82jz    Error: ImagePullBackOff
+prod-laia-25-03-2026    10m         Normal    SuccessfulCreate    replicaset/ecommerce-laia-25-03-2026-5f6bf47b4c   Created pod: ecommerce-laia-25-03-2026-5f6bf47b4c-n82jz
+prod-laia-25-03-2026    2m6s        Normal    SuccessfulDelete    replicaset/ecommerce-laia-25-03-2026-5f6bf47b4c   Deleted pod: ecommerce-laia-25-03-2026-5f6bf47b4c-n82jz
+prod-laia-25-03-2026    10m         Normal    ScalingReplicaSet   deployment/ecommerce-laia-25-03-2026              Scaled up replica set ecommerce-laia-25-03-2026-5f6bf47b4c from 0 to 1
+prod-laia-25-03-2026    2m6s        Normal    ScalingReplicaSet   deployment/ecommerce-laia-25-03-2026              Scaled down replica set ecommerce-laia-25-03-2026-5f6bf47b4c from 1 to 0

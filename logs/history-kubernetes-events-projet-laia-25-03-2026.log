@@ -1,0 +1,125 @@
+NAMESPACE              LAST SEEN           TYPE      REASON                  OBJECT                                           MESSAGE
+default                33m                 Normal    ExternalProvisioning    PersistentVolumeClaim/netdata-parent-alarms      Waiting for a volume to be created either by the external provisioner 'k8s.io/minikube-hostpath' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+default                33m                 Normal    ProvisioningSucceeded   PersistentVolumeClaim/netdata-k8s-state-varlib   Successfully provisioned volume pvc-29d98ca1-54f4-419c-bae6-a2601a43162a
+default                33m                 Normal    Provisioning            PersistentVolumeClaim/netdata-parent-database    External provisioner is provisioning volume for claim "default/netdata-parent-database"
+default                33m                 Normal    Provisioning            PersistentVolumeClaim/netdata-parent-alarms      External provisioner is provisioning volume for claim "default/netdata-parent-alarms"
+default                33m                 Normal    ExternalProvisioning    PersistentVolumeClaim/netdata-k8s-state-varlib   Waiting for a volume to be created either by the external provisioner 'k8s.io/minikube-hostpath' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+default                33m                 Normal    Provisioning            PersistentVolumeClaim/netdata-k8s-state-varlib   External provisioner is provisioning volume for claim "default/netdata-k8s-state-varlib"
+default                33m                 Normal    ProvisioningSucceeded   PersistentVolumeClaim/netdata-parent-alarms      Successfully provisioned volume pvc-36ddd78e-a396-4a89-a15c-f601afbc9a43
+default                33m                 Normal    ProvisioningSucceeded   PersistentVolumeClaim/netdata-parent-database    Successfully provisioned volume pvc-66366d0a-a32d-4039-9814-bcf39395ce1c
+default                33m                 Normal    ScalingReplicaSet       Deployment/netdata-k8s-state                     Scaled up replica set netdata-k8s-state-7d6df6d887 from 0 to 1
+default                33m                 Normal    ExternalProvisioning    PersistentVolumeClaim/netdata-parent-database    Waiting for a volume to be created either by the external provisioner 'k8s.io/minikube-hostpath' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+default                33m                 Normal    Created                 Pod/netdata-child-94jd2                          Container created
+default                33m                 Normal    Pulled                  Pod/netdata-child-94jd2                          Successfully pulled image "alpine:latest" in 1.155s (1.155s including waiting). Image size: 8442036 bytes.
+default                33m                 Normal    Scheduled               Pod/netdata-parent-867c7fb8df-v5h89              Successfully assigned default/netdata-parent-867c7fb8df-v5h89 to minikube
+default                33m                 Normal    SuccessfulCreate        ReplicaSet/netdata-k8s-state-7d6df6d887          Created pod: netdata-k8s-state-7d6df6d887-c8h9d
+default                33m                 Normal    SuccessfulCreate        DaemonSet/netdata-child                          Created pod: netdata-child-94jd2
+default                33m                 Normal    ScalingReplicaSet       Deployment/netdata-parent                        Scaled up replica set netdata-parent-867c7fb8df from 0 to 1
+default                33m                 Normal    SuccessfulCreate        ReplicaSet/netdata-parent-867c7fb8df             Created pod: netdata-parent-867c7fb8df-v5h89
+default                33m                 Normal    Scheduled               Pod/netdata-k8s-state-7d6df6d887-c8h9d           Successfully assigned default/netdata-k8s-state-7d6df6d887-c8h9d to minikube
+default                33m                 Normal    Scheduled               Pod/netdata-child-94jd2                          Successfully assigned default/netdata-child-94jd2 to minikube
+default                33m                 Normal    Pulling                 Pod/netdata-child-94jd2                          Pulling image "alpine:latest"
+default                33m                 Normal    Pulled                  Pod/netdata-k8s-state-7d6df6d887-c8h9d           Successfully pulled image "netdata/netdata:v2.9.0" in 1.006s (1.752s including waiting). Image size: 1182500567 bytes.
+default                33m                 Normal    Started                 Pod/netdata-child-94jd2                          Container started
+default                33m                 Normal    Pulled                  Pod/netdata-parent-867c7fb8df-v5h89              Successfully pulled image "netdata/netdata:v2.9.0" in 1.161s (2.91s including waiting). Image size: 1182500567 bytes.
+default                33m                 Normal    Pulled                  Pod/netdata-child-94jd2                          Successfully pulled image "netdata/netdata:v2.9.0" in 1.174s (2.313s including waiting). Image size: 1182500567 bytes.
+prod-laia-25-03-2026   27m                 Normal    Pulling                 Pod/load-test-laia-25-03-2026                    Pulling image "busybox"
+prod-laia-25-03-2026   27m                 Normal    Scheduled               Pod/load-test-laia-25-03-2026                    Successfully assigned prod-laia-25-03-2026/load-test-laia-25-03-2026 to minikube
+prod-laia-25-03-2026   27m                 Normal    Pulled                  Pod/load-test-laia-25-03-2026                    Successfully pulled image "busybox" in 3.911s (3.911s including waiting). Image size: 4421262 bytes.
+prod-laia-25-03-2026   27m                 Normal    Created                 Pod/load-test-laia-25-03-2026                    Container created
+prod-laia-25-03-2026   27m                 Normal    Started                 Pod/load-test-laia-25-03-2026                    Container started
+prod-laia-25-03-2026   24m                 Normal    Killing                 Pod/load-test-laia-25-03-2026                    Stopping container load-test-laia-25-03-2026
+prod-laia-25-03-2026   23m                 Normal    Scheduled               Pod/load-test-laia-25-03-2026                    Successfully assigned prod-laia-25-03-2026/load-test-laia-25-03-2026 to minikube
+prod-laia-25-03-2026   23m                 Normal    Pulling                 Pod/load-test-laia-25-03-2026                    Pulling image "busybox"
+prod-laia-25-03-2026   23m                 Normal    Created                 Pod/load-test-laia-25-03-2026                    Container created
+prod-laia-25-03-2026   23m                 Normal    Started                 Pod/load-test-laia-25-03-2026                    Container started
+prod-laia-25-03-2026   23m                 Normal    Pulled                  Pod/load-test-laia-25-03-2026                    Successfully pulled image "busybox" in 1.177s (1.177s including waiting). Image size: 4421262 bytes.
+default                12m                 Normal    Pulled                  Pod/netdata-k8s-state-7d6df6d887-c8h9d           Successfully pulled image "netdata/netdata:v2.9.0" in 3.091s (3.092s including waiting). Image size: 1182500567 bytes.
+default                12m                 Normal    Pulled                  Pod/netdata-child-94jd2                          Successfully pulled image "netdata/netdata:v2.9.0" in 3.792s (5.041s including waiting). Image size: 1182500567 bytes.
+default                12m                 Normal    Pulled                  Pod/netdata-parent-867c7fb8df-v5h89              Successfully pulled image "netdata/netdata:v2.9.0" in 2.131s (6.251s including waiting). Image size: 1182500567 bytes.
+default                12m (x5 over 33m)   Warning   Unhealthy               Pod/netdata-k8s-state-7d6df6d887-c8h9d           Readiness probe failed: uv_pipe_connect(): no such file or directory
+Cannot connect to '/run/netdata/netdata.pipe'.
+Make sure the netdata service is running.
+default                12m (x3 over 33m)   Warning   Unhealthy               Pod/netdata-parent-867c7fb8df-v5h89              Readiness probe failed: uv_pipe_connect(): no such file or directory
+Cannot connect to '/tmp/netdata/netdata.pipe'.
+Make sure the netdata service is running.
+default                12m (x4 over 33m)   Warning   Unhealthy               Pod/netdata-child-94jd2                          Readiness probe failed: uv_pipe_connect(): no such file or directory
+Cannot connect to '/run/netdata/netdata.pipe'.
+Make sure the netdata service is running.
+default                12m                 Warning   Unhealthy               Pod/netdata-child-94jd2                          Liveness probe failed: uv_pipe_connect(): no such file or directory
+Cannot connect to '/run/netdata/netdata.pipe'.
+Make sure the netdata service is running.
+default                   4m20s (x16 over 28m)   Warning   Unhealthy               Pod/netdata-k8s-state-7d6df6d887-c8h9d                  Liveness probe failed: command timed out: "/usr/sbin/netdatacli ping" timed out after 1s
+default                   4m20s (x16 over 28m)   Warning   Unhealthy               Pod/netdata-parent-867c7fb8df-v5h89                     Liveness probe failed: command timed out: "/usr/sbin/netdatacli ping" timed out after 1s
+preprod-laia-25-03-2026   3m53s                  Normal    ScalingReplicaSet       Deployment/ecommerce-laia-25-03-2026                    Scaled up replica set ecommerce-laia-25-03-2026-6c9fbc9f56 from 3 to 4
+preprod-laia-25-03-2026   3m53s                  Normal    SuccessfulRescale       HorizontalPodAutoscaler/hpa-ecommerce-laia-25-03-2026   New size: 4; reason: cpu resource utilization (percentage of request) above target
+preprod-laia-25-03-2026   3m52s                  Normal    SuccessfulCreate        ReplicaSet/ecommerce-laia-25-03-2026-6c9fbc9f56         Created pod: ecommerce-laia-25-03-2026-6c9fbc9f56-857pz
+preprod-laia-25-03-2026   3m50s                  Normal    Scheduled               Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-857pz          Successfully assigned preprod-laia-25-03-2026/ecommerce-laia-25-03-2026-6c9fbc9f56-857pz to minikube
+preprod-laia-25-03-2026   3m38s                  Normal    Pulling                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-857pz          Pulling image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest"
+preprod-laia-25-03-2026   3m34s                  Normal    Pulled                  Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-857pz          Successfully pulled image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest" in 6.731s (6.731s including waiting). Image size: 1437704278 bytes.
+preprod-laia-25-03-2026   3m31s                  Normal    Created                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-857pz          Container created
+preprod-laia-25-03-2026   3m29s                  Normal    Started                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-857pz          Container started
+default                   3m16s                  Normal    Pulled                  Pod/netdata-k8s-state-7d6df6d887-c8h9d                  Successfully pulled image "netdata/netdata:v2.9.0" in 3.648s (3.648s including waiting). Image size: 1182500567 bytes.
+default                   3m14s                  Normal    Pulled                  Pod/netdata-parent-867c7fb8df-v5h89                     Successfully pulled image "netdata/netdata:v2.9.0" in 1.756s (1.756s including waiting). Image size: 1182500567 bytes.
+preprod-laia-25-03-2026   2m57s                  Normal    SuccessfulCreate        ReplicaSet/ecommerce-laia-25-03-2026-6c9fbc9f56         Created pod: ecommerce-laia-25-03-2026-6c9fbc9f56-ghgt8
+preprod-laia-25-03-2026   2m57s                  Normal    SuccessfulRescale       HorizontalPodAutoscaler/hpa-ecommerce-laia-25-03-2026   New size: 8; reason: cpu resource utilization (percentage of request) above target
+preprod-laia-25-03-2026   2m57s                  Normal    SuccessfulCreate        ReplicaSet/ecommerce-laia-25-03-2026-6c9fbc9f56         Created pod: ecommerce-laia-25-03-2026-6c9fbc9f56-vdsch
+preprod-laia-25-03-2026   2m57s                  Normal    Scheduled               Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-f6hwz          Successfully assigned preprod-laia-25-03-2026/ecommerce-laia-25-03-2026-6c9fbc9f56-f6hwz to minikube
+preprod-laia-25-03-2026   2m57s                  Normal    Scheduled               Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-vdsch          Successfully assigned preprod-laia-25-03-2026/ecommerce-laia-25-03-2026-6c9fbc9f56-vdsch to minikube
+preprod-laia-25-03-2026   2m57s                  Normal    SuccessfulCreate        ReplicaSet/ecommerce-laia-25-03-2026-6c9fbc9f56         Created pod: ecommerce-laia-25-03-2026-6c9fbc9f56-f6hwz
+preprod-laia-25-03-2026   2m57s                  Normal    ScalingReplicaSet       Deployment/ecommerce-laia-25-03-2026                    Scaled up replica set ecommerce-laia-25-03-2026-6c9fbc9f56 from 4 to 8
+preprod-laia-25-03-2026   2m56s                  Normal    Scheduled               Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-ghgt8          Successfully assigned preprod-laia-25-03-2026/ecommerce-laia-25-03-2026-6c9fbc9f56-ghgt8 to minikube
+preprod-laia-25-03-2026   2m56s                  Normal    Scheduled               Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-qwvts          Successfully assigned preprod-laia-25-03-2026/ecommerce-laia-25-03-2026-6c9fbc9f56-qwvts to minikube
+preprod-laia-25-03-2026   2m56s                  Normal    SuccessfulCreate        ReplicaSet/ecommerce-laia-25-03-2026-6c9fbc9f56         Created pod: ecommerce-laia-25-03-2026-6c9fbc9f56-qwvts
+preprod-laia-25-03-2026   2m52s                  Normal    Pulling                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-ghgt8          Pulling image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest"
+preprod-laia-25-03-2026   2m51s                  Normal    Pulling                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-vdsch          Pulling image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest"
+preprod-laia-25-03-2026   2m51s                  Normal    Pulling                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-qwvts          Pulling image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest"
+preprod-laia-25-03-2026   2m51s                  Normal    Pulling                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-f6hwz          Pulling image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest"
+preprod-laia-25-03-2026   2m50s                  Normal    Created                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-ghgt8          Container created
+preprod-laia-25-03-2026   2m50s                  Normal    Pulled                  Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-ghgt8          Successfully pulled image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest" in 1.444s (1.444s including waiting). Image size: 1437704278 bytes.
+preprod-laia-25-03-2026   2m49s                  Normal    Pulled                  Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-f6hwz          Successfully pulled image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest" in 1.447s (2.235s including waiting). Image size: 1437704278 bytes.
+preprod-laia-25-03-2026   2m48s                  Normal    Started                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-ghgt8          Container started
+preprod-laia-25-03-2026   2m48s                  Normal    Created                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-f6hwz          Container created
+preprod-laia-25-03-2026   2m47s                  Normal    Started                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-f6hwz          Container started
+preprod-laia-25-03-2026   2m47s                  Normal    Pulled                  Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-vdsch          Successfully pulled image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest" in 1.892s (3.868s including waiting). Image size: 1437704278 bytes.
+preprod-laia-25-03-2026   2m47s                  Normal    Created                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-vdsch          Container created
+preprod-laia-25-03-2026   2m46s                  Normal    Pulled                  Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-qwvts          Successfully pulled image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest" in 1.337s (5.137s including waiting). Image size: 1437704278 bytes.
+preprod-laia-25-03-2026   2m44s                  Normal    Created                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-qwvts          Container created
+preprod-laia-25-03-2026   2m42s                  Normal    Started                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-vdsch          Container started
+preprod-laia-25-03-2026   2m40s                  Normal    Started                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-qwvts          Container started
+default                   2m2s (x18 over 28m)    Warning   Unhealthy               Pod/netdata-child-94jd2                                 Liveness probe failed: command timed out: "/usr/sbin/netdatacli ping" timed out after 1s
+default                   89s                    Normal    Pulled                  Pod/netdata-parent-867c7fb8df-v5h89                     Successfully pulled image "netdata/netdata:v2.9.0" in 1.524s (1.525s including waiting). Image size: 1182500567 bytes.
+default                   88s                    Normal    Pulled                  Pod/netdata-k8s-state-7d6df6d887-c8h9d                  Successfully pulled image "netdata/netdata:v2.9.0" in 1.32s (2.824s including waiting). Image size: 1182500567 bytes.
+default                   79s                    Normal    Pulled                  Pod/netdata-child-94jd2                                 Successfully pulled image "netdata/netdata:v2.9.0" in 2.455s (2.455s including waiting). Image size: 1182500567 bytes.
+preprod-laia-25-03-2026   66s                    Normal    SuccessfulCreate        ReplicaSet/ecommerce-laia-25-03-2026-6c9fbc9f56         Created pod: ecommerce-laia-25-03-2026-6c9fbc9f56-2cpff
+preprod-laia-25-03-2026   66s                    Normal    SuccessfulRescale       HorizontalPodAutoscaler/hpa-ecommerce-laia-25-03-2026   New size: 10; reason: cpu resource utilization (percentage of request) above target
+preprod-laia-25-03-2026   66s                    Normal    ScalingReplicaSet       Deployment/ecommerce-laia-25-03-2026                    Scaled up replica set ecommerce-laia-25-03-2026-6c9fbc9f56 from 8 to 10
+preprod-laia-25-03-2026   66s                    Normal    Scheduled               Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-2cpff          Successfully assigned preprod-laia-25-03-2026/ecommerce-laia-25-03-2026-6c9fbc9f56-2cpff to minikube
+preprod-laia-25-03-2026   66s                    Normal    SuccessfulCreate        ReplicaSet/ecommerce-laia-25-03-2026-6c9fbc9f56         Created pod: ecommerce-laia-25-03-2026-6c9fbc9f56-8m5bz
+preprod-laia-25-03-2026   65s                    Normal    Scheduled               Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-8m5bz          Successfully assigned preprod-laia-25-03-2026/ecommerce-laia-25-03-2026-6c9fbc9f56-8m5bz to minikube
+preprod-laia-25-03-2026   61s                    Normal    Pulling                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-8m5bz          Pulling image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest"
+preprod-laia-25-03-2026   61s                    Normal    Pulling                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-2cpff          Pulling image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest"
+preprod-laia-25-03-2026   60s                    Normal    Pulled                  Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-2cpff          Successfully pulled image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest" in 1.474s (1.475s including waiting). Image size: 1437704278 bytes.
+preprod-laia-25-03-2026   59s                    Normal    Created                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-2cpff          Container created
+preprod-laia-25-03-2026   58s                    Normal    Started                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-2cpff          Container started
+preprod-laia-25-03-2026   56s                    Normal    Pulled                  Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-8m5bz          Successfully pulled image "tomcruise57/rocket-ecommerce-lia-25-03-2026:latest" in 3.872s (5.252s including waiting). Image size: 1437704278 bytes.
+preprod-laia-25-03-2026   55s                    Normal    Created                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-8m5bz          Container created
+default                   54s (x20 over 33m)     Warning   Unhealthy               Pod/netdata-parent-867c7fb8df-v5h89                     Readiness probe failed: command timed out: "/usr/sbin/netdatacli ping" timed out after 1s
+default                   53s (x16 over 33m)     Warning   Unhealthy               Pod/netdata-k8s-state-7d6df6d887-c8h9d                  Readiness probe failed: command timed out: "/usr/sbin/netdatacli ping" timed out after 1s
+preprod-laia-25-03-2026   51s                    Normal    Started                 Pod/ecommerce-laia-25-03-2026-6c9fbc9f56-8m5bz          Container started
+default                   45s (x9 over 15m)      Warning   Unhealthy               Pod/netdata-child-94jd2                                 Readiness probe failed: command timed out: "/usr/sbin/netdatacli ping" timed out after 1s
+default                   10s (x3 over 12m)      Normal    Killing                 Pod/netdata-child-94jd2                                 Container netdata failed liveness probe, will be restarted
+default                   10s (x4 over 12m)      Normal    Killing                 Pod/netdata-parent-867c7fb8df-v5h89                     Container netdata failed liveness probe, will be restarted
+default                   10s (x4 over 12m)      Normal    Killing                 Pod/netdata-k8s-state-7d6df6d887-c8h9d                  Container netdata failed liveness probe, will be restarted
+default                   8s (x5 over 33m)       Normal    Pulling                 Pod/netdata-parent-867c7fb8df-v5h89                     Pulling image "netdata/netdata:v2.9.0"
+default                   8s (x5 over 33m)       Normal    Pulling                 Pod/netdata-k8s-state-7d6df6d887-c8h9d                  Pulling image "netdata/netdata:v2.9.0"
+default                   6s (x5 over 33m)       Normal    Created                 Pod/netdata-parent-867c7fb8df-v5h89                     Container created
+default                   6s                     Normal    Pulled                  Pod/netdata-parent-867c7fb8df-v5h89                     Successfully pulled image "netdata/netdata:v2.9.0" in 1.667s (1.667s including waiting). Image size: 1182500567 bytes.
+default                   5s                     Normal    Pulled                  Pod/netdata-k8s-state-7d6df6d887-c8h9d                  Successfully pulled image "netdata/netdata:v2.9.0" in 1.493s (3.136s including waiting). Image size: 1182500567 bytes.
+default                   5s (x5 over 33m)       Normal    Started                 Pod/netdata-parent-867c7fb8df-v5h89                     Container started
+default                   5s (x4 over 33m)       Normal    Pulling                 Pod/netdata-child-94jd2                                 Pulling image "netdata/netdata:v2.9.0"
+default                   4s (x5 over 33m)       Normal    Created                 Pod/netdata-k8s-state-7d6df6d887-c8h9d                  Container created
+default                   3s (x5 over 33m)       Normal    Started                 Pod/netdata-k8s-state-7d6df6d887-c8h9d                  Container started
+default                   3s                     Normal    Pulled                  Pod/netdata-child-94jd2                                 Successfully pulled image "netdata/netdata:v2.9.0" in 1.49s (1.817s including waiting). Image size: 1182500567 bytes.
+default                   3s (x4 over 33m)       Normal    Created                 Pod/netdata-child-94jd2                                 Container created
+default                   2s (x4 over 33m)       Normal    Started                 Pod/netdata-child-94jd2                                 Container started

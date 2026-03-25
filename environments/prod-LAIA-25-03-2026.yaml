@@ -1,0 +1,134 @@
+
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod-laia-25-03-2026
+  labels:
+    name: prod-laia-25-03-2026
+    env: prod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecommerce-svc-laia-25-03-2026
+  labels:
+    app: ecommerce-svc-laia-25-03-2026
+  namespace: prod-laia-25-03-2026
+spec:
+  type: LoadBalancer
+  selector:
+    app: ecommerce-laia-25-03-2026
+  ports:
+  - port: 5085
+    protocol: TCP
+    targetPort: 5085
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-configmap-laia-25-03-2026
+  namespace: prod-laia-25-03-2026
+data:
+  DEBUG: "False"
+  DEMO_MODE: "False"
+  SERVER_ADDRESS: "http://localhost:5085/"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ecommerce-secret-laia-25-03-2026
+  namespace: prod-laia-25-03-2026
+type: Opaque
+data:
+  STRIPE_PUBLISHABLE_KEY: cGtfdGVzdF81MVFySzZGTHphN2x6MWtSYU5ObGJnQ0dRc0k4R3doUEN3Q05wRmRRcmhRUjViUjl5ZlU3UEp2YVVQWkRkM0E3Zzd0NGl1dG1Kd1FZeWlGR1kwOHNBYVpaNjAwdzdDT09KV0Q=
+  STRIPE_SECRET_KEY: c2tfdGVzdF81MVFySzZGTHphN2x6MWtSYVVod3ZCTDdBajRZcmd5YmZEaW40NTNMTDk3T3BhNUl0SDh4bHhBSUxwcUJGYWdWamYzSWZTMFJNZEhhYkJXZkthVnpNQkV4bjAwOXp2Q0R6M1g=
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-laia-25-03-2026
+  labels:
+    app: ecommerce-laia-25-03-2026
+  namespace: prod-laia-25-03-2026
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ecommerce-laia-25-03-2026
+  template:
+    metadata:
+      labels:
+        app: ecommerce-laia-25-03-2026
+    spec:
+      containers:
+      - name: ecommerce-laia-25-03-2026
+        image: tomcruise57/rocket-ecommerce-lia-25-03-2026:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 5085
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 100m
+          limits:
+            memory: 512Mi
+            cpu: 450m
+        envFrom:
+        - secretRef:
+            name: ecommerce-secret-laia-25-03-2026
+        - configMapRef:
+            name: ecommerce-configmap-laia-25-03-2026
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-ecommerce-laia-25-03-2026
+  namespace: prod-laia-25-03-2026
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ecommerce-laia-25-03-2026
+  minReplicas: 3
+  maxReplicas: 20
+  behavior:
+    scaleUp:
+      # scale up immediat
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 5
+      - type: Pods
+        value: 4
+        periodSeconds: 5
+      selectPolicy: Max
+    scaleDown:
+      # 300 par defaut, donc 5 min avant scale down
+      stabilizationWindowSeconds: 10
+      policies:
+      # type : Pods ou Percent
+      - type: Percent
+        # enleve 50% des pods
+        value: 50
+        # Toutes les 5s. Période max 30min (1800s)
+        periodSeconds: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+status:
+  observedGeneration: 1
+  currentReplicas: 1
+  desiredReplicas: 1
+  currentMetrics:
+  - type: Resource
+    resource:
+      name: cpu
+      current:
+        averageUtilization: 0
+        averageValue: 0

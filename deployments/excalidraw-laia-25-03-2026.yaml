@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: excalidraw-laia-25-03-2026
+  labels:
+    name: excalidraw-laia-25-03-2026
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: excalidraw-svc-laia-25-03-2026
+  labels:
+    app: excalidraw-laia-25-03-2026
+  namespace: excalidraw-laia-25-03-2026
+spec:
+  type: LoadBalancer
+  selector:
+    app: excalidraw-laia-25-03-2026
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: excalidraw-laia-25-03-2026
+  labels:
+    app: excalidraw-laia-25-03-2026
+  namespace: excalidraw-laia-25-03-2026
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: excalidraw-laia-25-03-2026
+  template:
+    metadata:
+      labels:
+        app: excalidraw-laia-25-03-2026
+    spec:
+      containers:
+      - name: excalidraw-laia-25-03-2026
+        image: excalidraw/excalidraw:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 80
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 300m

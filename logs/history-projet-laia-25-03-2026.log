@@ -1,0 +1,1000 @@
+  462  ls
+  463  kubectl create deployment uptime-kuma --image=louislam/uptime-kuma:1
+  464  kubectl expose deployment uptime-kuma --type=NodePort --port=3001
+  465  W_URL=$(minikube service wordpress --url)
+  466  kubectl run load-gen --image=busybox --restart=Never -- /bin/sh -c "while true; do wget -q -O- $W_URL; done"
+  467  kubectl delete pod load-gen --force --grace-period=0 2>/dev/null
+  468  kubectl run load-gen --image=busybox --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://wordpress; done"
+  469  kubectl top pods
+  470  minikube service netdata
+  471  kubectl get secret indexer-auth -n wazuh -o jsonpath='{.data.auth-conf\.yml}' | base64 --decode
+  472  kubectl delete all --all -n wazuh
+  473  minikube stop
+  474  kubectl get secret indexer-auth -n wazuh -o jsonpath='{.data.auth-conf\.yml}' | base64 --decode
+  475  minikube start
+  476  kubectl delete namespace wazuh
+  477  kubectl delete pods,services,deployments --all
+  478  kubectl delete pvc --all -n wazuh
+  479  kubectl get ns
+  480  kubectl get pods -A
+  481  kubectl delete ns dev preprod monitoring
+  482  kubectl delete pod netdata-child-bv9vr
+  483  minikube stop
+  484  ls
+  485  cd manifest/
+  486  minikube start
+  487  kubectl get nodes
+  488  kubectl create namespace preprod
+  489  kubectl create namespace dev
+  490  kubectl get ns
+  491  sudo mkdir -p stripe-app
+  492  cd stripe-app
+  493  cat > package.json <<'EOF'
+  494  {
+  495    "name": "stripe-app",
+  496    "version": "1.0.0",
+  497    "dependencies": {
+  498      "express": "^4.18.2",
+  499      "stripe": "^14.0.0"
+  500    }
+  501  }
+  502  EOF
+  503  sudo -s
+  504  cd ..
+  505  ls
+  506  sudo rmdir stripe-app
+  507  k delete --all
+  508  ls
+  509  kubectl delete all --all
+  510  k get pods
+  511  cat <<EOF >./kustomization.yaml
+  512  secretGenerator:
+  513  - name: mysql-pass
+  514    literals:
+  515    - password=admin1234
+  516  resources:
+  517    - mysql-deployment.yaml
+  518    - wordpress-deployment.yaml
+  519  EOF
+  520  sudo cat <<EOF >./kustomization.yaml
+  521  secretGenerator:
+  522  - name: mysql-pass
+  523    literals:
+  524    - password=admin1234
+  525  resources:
+  526    - mysql-deployment.yaml
+  527    - wordpress-deployment.yaml
+  528  EOF
+  529  sudo -s
+  530  minikube status
+  531  kubectl apply -k .
+  532  curl -LO https://k8s.io/examples/application/wordpress/mysql-deployment.yaml
+  533  curl -LO https://k8s.io/examples/application/wordpress/wordpress-deployment.yaml
+  534  sudo chown -R ghostshell:ghostshell /home/ghostshell/manifest
+  535  curl -LO https://k8s.io/examples/application/wordpress/mysql-deployment.yaml
+  536  curl -LO https://k8s.io/examples/application/wordpress/wordpress-deployment.yaml
+  537  kubectl apply -k .
+  538  kubectl get pods
+  539  kubectl apply -f https://raw.githubusercontent.com/netdata/helmchart/master/charts/netdata/manifests/netdata-micro.yaml
+  540  minikube addons enable metrics-server
+  541  kubectl create namespace monitoring
+  542  kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/main/manifests/setup/
+  543  helm repo add netdata https://netdata.github.io/helmchart/
+  544  curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  545  helm repo add netdata https://netdata.github.io/helmchart/
+  546  helm repo update
+  547  helm install netdata netdata/netdata
+  548  kubectl get pods
+  549  minikube service netdata
+  550  kubectl describe nodes | grep -A 5 "Allocated resources"
+  551  cd ~
+  552  git clone https://github.com/wazuh/wazuh-kubernetes.git -b v4.8.0
+  553  cd wazuh-kubernetes
+  554  bash generate-certs.sh
+  555  ls
+  556  cd wazuh/certs/
+  557  bash generate-certs.sh
+  558  ls
+  559  cd ~/wazuh-kubernetes
+  560  kubectl apply -k envs/local-env/
+  561  cd ~/wazuh-kubernetes/wazuh/certs-provisioner/
+  562  bash generate-certs.sh
+  563  cd ~/wazuh-kubernetes
+  564  curl -LO https://raw.githubusercontent.com/wazuh/wazuh-kubernetes/v4.7.2/wazuh/certs/generate-certs.sh
+  565  mkdir -p wazuh/certs/indexer_cluster wazuh/certs/dashboard_http
+  566  bash generate-certs.sh
+  567  rm generate-certs.sh
+  568  curl -LO https://raw.githubusercontent.com/wazuh/wazuh-kubernetes/v4.7.2/wazuh/certs/generate-certs.sh
+  569  bash generate-certs.sh
+  570  helm repo add wazuh https://wazuh.github.io/wazuh-helm
+  571  helm repo update
+  572  helm install wazuh wazuh/wazuh --namespace wazuh --create-namespace
+  573  kubectl delete namespace wazuh --ignore-not-found
+  574  kubectl create namespace wazuh
+  575  cd ~
+  576  rm -rf wazuh-kubernetes
+  577  git clone https://github.com/wazuh/wazuh-kubernetes.git -b v4.14.3 --depth=1
+  578  cd wazuh-kubernetes
+  579  bash wazuh/certs/indexer_cluster/generate_certs.sh
+  580  bash wazuh/certs/dashboard_http/generate_certs.sh
+  581  kubectl apply -k envs/local-env/
+  582  kubectl get pods -n wazuh
+  583  kubectl -n wazuh port-forward service/dashboard 8443:443
+  584  kubectl get pods -n wazuh
+  585  kubectl describe pod wazuh-indexer-0 -n wazuh | grep -i Events -A 5
+  586  kubectl get sc
+  587  kubectl patch pvc wazuh-indexer-0 -n wazuh -p '{"spec":{"storageClassName":"standard"}}'
+  588  kubectl patch pvc wazuh-manager-master-0 -n wazuh -p '{"spec":{"storageClassName":"standard"}}'
+  589  sed -i 's/microk8s.io\/hostpath/k8s.io\/minikube-hostpath/g' envs/local-env/storage-class.yaml
+  590  kubectl apply -k envs/local-env/
+  591  kubectl get pvc -n wazuh
+  592  kubectl delete sc wazuh-storage
+  593  kubectl delete pvc --all -n wazuh
+  594  cat <<EOF | kubectl apply -f -
+  595  kind: StorageClass
+  596  apiVersion: storage.k8s.io/v1
+  597  metadata:
+  598    name: wazuh-storage
+  599  provisioner: k8s.io/minikube-hostpath
+  600  reclaimPolicy: Delete
+  601  volumeBindingMode: Immediate
+  602  EOF
+  603  kubectl apply -k envs/local-env/
+  604  kubectl get pvc -n wazuh
+  605  kubectl get pods -n wazuh
+  606  kubectl get pods -n wazuh -w
+  607  # Garde ce terminal ouvert pour maintenir la connexion
+  608  kubectl -n wazuh port-forward service/dashboard 8443:443
+  609  kubectl get pods -n wazuh
+  610  minikube ssh "sudo sysctl -w vm.max_map_count=262144"
+  611  kubectl logs wazuh-indexer-0 -n wazuh -c config-sysctl
+  612  kubectl get pods -n wazuh
+  613  kubectl rollout restart deployment/wazuh-dashboard -n wazuh
+  614  kubectl get pods -n wazuh -w
+  615  kubectl logs wazuh-indexer-0 -n wazuh --tail=20
+  616  kubectl logs wazuh-indexer-0 -n wazuh -c volume-mount-hack
+  617  kubectl describe pod wazuh-indexer-0 -n wazuh
+  618  kubectl get pods -n wazuh
+  619  kubectl -n wazuh port-forward service/dashboard 8443:443
+  620  kubectl logs -f deployment/wazuh-dashboard -n wazuh
+  621  kubectl logs wazuh-indexer-0 -n wazuh --tail=50
+  622  kubectl -n wazuh port-forward service/dashboard 8443:443
+  623  kubectl delete -f ~/wazuh-kubernetes/deployments/
+  624  kubectl delete -f . --recursive
+  625  k get all
+  626  k get pods
+  627  kubectl delete pods --all -n wazuh --force --grace-period=0
+  628  minikube stop --force
+  629  k get delete --all --all
+  630  free -h
+  631  docker --version
+  632  docker compose version
+  633  sudo sysctl -w vm.max_map_count=262144
+  634  ls
+  635  rmdir wazuh-kubernetes/
+  636  rm -rf ~/wazuh-kubernetes
+  637  ls
+  638  cd snap/
+  639  ls
+  640  cd ..
+  641  ls
+  642  rm tp-python.yaml 
+  643  rm -rf tp-python.yaml 
+  644  ls
+  645  cd automatisation/
+  646  ls
+  647  cd kali_ssh_keys/
+  648  ls
+  649  cd ..
+  650  ls
+  651  cd ..
+  652  ls
+  653  cd tp-minikube/
+  654  ls
+  655  cd ..
+  656  cd manifest/
+  657  ls
+  658  cd ..
+  659  ls
+  660  mkdir -p ~/lab-soc-wazuh/docker
+  661  cd ~/lab-soc-wazuh/docker
+  662  ls
+  663  curl -so docker-compose.yml https://raw.githubusercontent.com/wazuh/wazuh-docker/v4.9.2/single-node/docker-compose.yml
+  664  curl -so generate-indexer-certs.yml https://raw.githubusercontent.com/wazuh/wazuh-docker/v4.9.2/single-node/generate-indexer-certs.yml
+  665  ls -la
+  666  docker compose -f generate-indexer-certs.yml run --rm generator
+  667  cd ~
+  668  rm -rf ~/lab-soc-wazuh/docker
+  669  git clone https://github.com/wazuh/wazuh-docker.git --branch v4.9.2 --depth 1
+  670  cd wazuh-docker/single-node
+  671  ls
+  672  docker compose -f generate-indexer-certs.yml run --rm generator
+  673  docker compose up -d
+  674  docker compose ps
+  675  grep -i "INDEXER_PASSWORD\|admin" ~/wazuh-docker/single-node/docker-compose.yml | head -20
+  676  ip addr show eth0 | grep "inet " | awk '{print $2}' | cut -d/ -f1
+  677  docker exec -it single-node-wazuh.manager-1 bash
+  678  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control restart
+  679  cd ~/
+  680  git clone https://github.com/Shuffle/Shuffle.git
+  681  cd Shuffle
+  682  docker compose up -d
+  683  cd ~/Shuffle
+  684  nano docker-compose.yml
+  685  docker compose down
+  686  docker compose up -d
+  687  nano docker-compose.yml
+  688  sudo nano /var/ossec/etc/ossec.conf
+  689  cd /var/ossec/etc/
+  690  sudo nano /var/ossec/etc/ossec.conf
+  691  ls
+  692  cd ..
+  693  ls
+  694  cd wazuh-docker/
+  695  ls
+  696  nano single-node/config/wazuh_cluster/wazuh_manager/conf/ossec.conf
+  697  cd single-node/
+  698  ls
+  699  cd config/
+  700  ls
+  701  cd wazuh_cluster/
+  702  ls
+  703  nano wazuh_manager.conf
+  704  cd ~/wazuh-docker/single-node
+  705  docker compose restart
+  706  hostname -I
+  707  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_d95c69b5-05b2-47ce-89ae-490556e0d960 -H "Content-Type: application/json" -d '{"rule":{"description":"Test Shuffle manuel"},"full_log":"Ceci est un test pour activer le workflow"}'
+  708  sudo chmod 666 /var/run/docker.sock
+  709  cd / shuffle
+  710  cd ../..
+  711  ls
+  712  cd Shuffle/
+  713  docker compose restart
+  714  docker stop shuffle-orborus
+  715  docker rm shuffle-orborus
+  716  docker ps
+  717  docker run -d     --restart=always     --name="shuffle-orborus"     --pull=always     --volume "/var/run/docker.sock:/var/run/docker.sock"     -e AUTH="cb5st3d3Zman sudo_rootX3zaJ*Pc"     -e ENVIRONMENT_NAME="onprem"     -e ORG="1c4cc09a-17b3-427d-b3dd-a94f51369025"     -e SHUFFLE_SWARM_CONFIG=run     -e BASE_URL="http://localhost:3001"     -v /tmp:/tmp     ghcr.io/shuffle/shuffle-orborus:latest
+  718  docker ps
+  719  docker ps | grep orborus
+  720  docker logs shuffle-orborus --tail 20
+  721  cd ~/Shuffle
+  722  docker compose down
+  723  sed -i 's|http://localhost:3001|http://shuffle-backend:3001|g' docker-compose.yml
+  724  sed -i 's/1514:1514/1515:1514/g' docker-compose.yml
+  725  docker compose up -d
+  726  sleep 10
+  727  docker logs shuffle-orborus --tail 10
+  728  cd ~/Shuffle
+  729  docker compose down --remove-orphans
+  730  docker rm -f shuffle-orborus shuffle-backend shuffle-frontend shuffle-opensearch 2>/dev/null
+  731  docker compose up -d
+  732  sleep 15 && docker logs shuffle-orborus --tail 10
+  733  docker swarm init
+  734  docker swarm init --advertise-addr 172.28.93.74
+  735  cd ~/Shuffle
+  736  docker compose restart
+  737  sleep 20
+  738  docker logs shuffle-orborus --tail 10
+  739  sed -i 's/- "1514:1514"/- "1515:1514"/g' ~/Shuffle/docker-compose.yml
+  740  docker compose down && docker compose up -d
+  741  sleep 20
+  742  docker logs shuffle-orborus --tail 5
+  743  cd ~/Shuffle
+  744  grep -n "1514\|TENZIR\|tenzir" docker-compose.yml
+  745  grep -n "SHUFFLE_DISABLE\|environment" docker-compose.yml | head -20
+  746  sed -n '40,80p' docker-compose.yml
+  747  sed -i 's/- SHUFFLE_STATS_DISABLED=true/- SHUFFLE_STATS_DISABLED=true\n      - SHUFFLE_TENZIR_DISABLED=true/' docker-compose.yml
+  748  grep -n "TENZIR" docker-compose.yml
+  749  docker compose down && docker compose up -d
+  750  sleep 20
+  751  docker logs shuffle-orborus --tail 8
+  752  docker service rm shuffle-workers 2>/dev/null
+  753  docker rm -f tenzir-node 2>/dev/null
+  754  docker compose restart orborus
+  755  sleep 20
+  756  docker logs shuffle-orborus --tail 5
+  757  docker service ls
+  758  docker exec shuffle-backend curl -v smtp.gmail.com:587 --max-time 10
+  759  docker exec shuffle-backend wget -q --spider smtp.gmail.com:587 --timeout=10 2>&1 || echo "connexion testée"
+  760  docker exec shuffle-orborus wget -q --spider smtp.gmail.com:587 --timeout=10 2>&1 || echo "connexion testée"
+  761  docker service ps email_1-3-0
+  762  docker exec single-node-wazuh.manager-1 grep -A 6 "shuffle" /var/ossec/etc/ossec.conf
+  763  docker exec -it single-node-wazuh.manager-1 bash
+  764  docker exec single-node-wazuh.manager-1 tail -20 /var/ossec/logs/integrations.log
+  765  docker exec single-node-wazuh.manager-1 tail -5 /var/ossec/logs/integrations.log
+  766  docker logs shuffle-backend --tail 20 | grep -i "webhook\|hook\|trigger"
+  767  docker exec -it single-node-wazuh.manager-1 bash
+  768  cd ~/wazuh-docker/single-node && docker compose down
+  769  cd ~/Shuffle && docker compose down
+  770  cd ~/wazuh-docker/single-node && docker compose up -d
+  771  cd ~/Shuffle && docker compose up -d
+  772  docker logs shuffle-backend 2>&1 | grep "Set up a new hook" | tail -3
+  773  docker exec single-node-wazuh.manager-1 tail -f /var/ossec/logs/integrations.log
+  774  powershell -noprofile -windowstyle hidden -command "Write-Host test"
+  775  docker logs shuffle-backend -f 2>&1 | grep -i "hook\|webhook\|trigger\|100001"
+  776  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_f3ed574e-6a42-458d-8a57-d128a9555183   -H "Content-Type: application/json"   -d '{"rule":{"id":"100001","level":12,"description":"Test PowerShell suspect"},"agent":{"name":"windows-host"}}'
+  777  docker exec single-node-wazuh.manager-1 cat /var/ossec/logs/integrations.log
+  778  docker exec single-node-wazuh.manager-1 tail -3 /var/ossec/logs/integrations.log
+  779  docker exec single-node-wazuh.manager-1 grep -A 8 "integration" /var/ossec/etc/ossec.conf
+  780  docker exec -it single-node-wazuh.manager-1 bash
+  781  docker cp single-node-wazuh.manager-1:/var/ossec/etc/ossec.conf ~/wazuh-docker/single-node/config/wazuh_cluster/wazuh_manager.conf
+  782  tail -10 ~/wazuh-docker/single-node/config/wazuh_cluster/wazuh_manager.conf
+  783  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control restart
+  784  docker exec single-node-wazuh.manager-1 tail -3 /var/ossec/logs/integrations.log
+  785  cd ~/wazuh-docker/single-node && docker compose down
+  786  cd ~/Shuffle && docker compose down
+  787  sudo apt update
+  788  ls
+  789  cd ~/Shuffle && docker compose up
+  790  cd ~/wazuh-docker/single-node && docker compose up -d
+  791  cd ~/Shuffle && docker compose up -d
+  792  docker ps
+  793  docker exec -it single-node-wazuh.manager-1 bash
+  794  Restart-Service WazuhSvc
+  795  docker exec -it single-node-wazuh.manager-1 bash
+  796  docker cp /home/claude/custom_local_rules.xml single-node-wazuh.manager-1:/var/ossec/etc/rules/custom_local_rules.xml
+  797  cat > ~/custom_local_rules.xml << 'ENDOFFILE'
+  798  <group name="local,syslog,">
+  799    <rule id="100001" level="12">
+  800      <if_group>windows</if_group>
+  801      <field name="win.eventdata.commandLine" type="pcre2">(?i)(encodedcommand|frombase64|iex|invoke-expression|downloadstring|bypass|hidden|noprofile)</field>
+  802      <description>PowerShell suspect - Commande obfusquée ou téléchargement détecté</description>
+  803      <mitre><id>T1059.001</id></mitre>
+  804      <group>powershell,attack,</group>
+  805    </rule>
+  806    <rule id="100002" level="10" frequency="5" timeframe="10">
+  807      <if_matched_sid>5760</if_matched_sid>
+  808      <description>Brute force SSH - 5 échecs authentification en 10 secondes</description>
+  809      <mitre><id>T1110.001</id></mitre>
+  810      <group>authentication_failures,attack,</group>
+  811    </rule>
+  812    <rule id="100003" level="8">
+  813      <if_group>windows</if_group>
+  814      <field name="win.eventdata.commandLine" type="pcre2">(?i)(nmap|masscan|zmap|portscan)</field>
+  815      <description>Scan réseau détecté - Outil de reconnaissance potentiel</description>
+  816      <mitre><id>T1046</id></mitre>
+  817      <group>network_scan,attack,</group>
+  818    </rule>
+  819    <rule id="100004" level="12">
+  820      <if_sid>60106</if_sid>
+  821      <description>Création de compte utilisateur local - Persistance potentielle</description>
+  822      <mitre><id>T1136.001</id></mitre>
+  823      <group>account_creation,attack,</group>
+  824    </rule>
+  825    <rule id="100005" level="15">
+  826      <if_group>windows</if_group>
+  827      <field name="win.eventdata.commandLine" type="pcre2">(?i)(Set-MpPreference|DisableRealtimeMonitoring|DisableAntiSpyware|DisableAntiVirus)</field>
+  828      <description>Tentative de désactivation Windows Defender - Indicateur critique</description>
+  829      <mitre><id>T1562.001</id></mitre>
+  830      <group>antivirus_disabled,attack,</group>
+  831    </rule>
+  832    <rule id="100006" level="15">
+  833      <if_group>windows</if_group>
+  834      <field name="win.eventdata.commandLine" type="pcre2">(?i)(mimikatz|sekurlsa|lsadump|procdump.*lsass|rundll32.*comsvcs)</field>
+  835      <description>Tentative de dump credentials - Mimikatz ou outil similaire détecté</description>
+  836      <mitre><id>T1003.001</id></mitre>
+  837      <group>credential_dumping,attack,</group>
+  838    </rule>
+  839    <rule id="100007" level="10">
+  840      <if_group>windows</if_group>
+  841      <field name="win.eventdata.image" type="pcre2">(?i)(\\temp\\|\\appdata\\|\\public\\|\\downloads\\).*\.(exe|bat|ps1|vbs|js)</field>
+  842      <description>Exécution depuis répertoire suspect - Masquerading potentiel</description>
+  843      <mitre><id>T1036.005</id></mitre>
+  844      <group>masquerading,attack,</group>
+  845    </rule>
+  846    <rule id="100008" level="10">
+  847      <if_group>windows</if_group>
+  848      <field name="win.eventdata.targetObject" type="pcre2">(?i)(\\CurrentVersion\\Run|\\CurrentVersion\\RunOnce)</field>
+  849      <description>Modification clé registre Run - Persistance potentielle au démarrage</description>
+  850      <mitre><id>T1547.001</id></mitre>
+  851      <group>registry_persistence,attack,</group>
+  852    </rule>
+  853    <rule id="100009" level="12">
+  854      <if_sid>67027</if_sid>
+  855      <field name="win.system.eventID">^1$</field>
+  856      <description>Sysmon - Nouveau processus avec Hash détecté : $(win.eventdata.image)</description>
+  857      <mitre><id>T1059</id></mitre>
+  858      <group>sysmon_event1,sysmon_process_creation,</group>
+  859    </rule>
+  860    <rule id="100010" level="7">
+  861      <if_sid>67027</if_sid>
+  862      <field name="win.system.eventID">^3$</field>
+  863      <description>Sysmon - Connexion réseau: $(win.eventdata.image) -> $(win.eventdata.destinationIp)</description>
+  864      <mitre><id>T1071</id></mitre>
+  865      <group>sysmon_event3,sysmon_network,</group>
+  866    </rule>
+  867    <rule id="100011" level="5">
+  868      <if_sid>67027</if_sid>
+  869      <field name="win.system.eventID">^11$</field>
+  870      <description>Sysmon - Fichier créé: $(win.eventdata.targetFilename)</description>
+  871      <mitre><id>T1105</id></mitre>
+  872      <group>sysmon_event11,sysmon_file,</group>
+  873    </rule>
+  874  </group>
+  875  ENDOFFILE
+  876  cat ~/custom_local_rules.xml | tail -5
+  877  docker cp ~/custom_local_rules.xml single-node-wazuh.manager-1:/var/ossec/etc/rules/custom_local_rules.xml
+  878  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control restart
+  879  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control status
+  880  docker exec single-node-wazuh.manager-1 grep -r "sysmon" /var/ossec/ruleset/rules/ -l
+  881  docker exec single-node-wazuh.manager-1 grep -A 5 "rule id" /var/ossec/ruleset/rules/0800-sysmon_id_1.xml | head -20
+  882  docker exec single-node-wazuh.manager-1 grep -r "sysmon_event1" /var/ossec/ruleset/rules/0330-sysmon_rules.xml | head -5
+  883  docker exec single-node-wazuh.manager-1 grep -B2 "sysmon_event1," /var/ossec/ruleset/rules/0330-sysmon_rules.xml | head -10
+  884  docker exec single-node-wazuh.manager-1 grep -B5 "sysmon_event1," /var/ossec/ruleset/rules/0330-sysmon_rules.xml | head -15
+  885  docker exec -it single-node-wazuh.manager-1 sed -i 's/<if_sid>67027<\/if_sid>/<if_sid>184665<\/if_sid>/g' /var/ossec/etc/rules/custom_local_rules.xml
+  886  docker exec single-node-wazuh.manager-1 grep "if_sid" /var/ossec/etc/rules/custom_local_rules.xml
+  887  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control restart
+  888  docker exec single-node-wazuh.manager-1 grep "100001" /var/ossec/etc/rules/local_rules.xml
+  889  docker exec -it single-node-wazuh.manager-1 bash -c 'cat > /var/ossec/etc/rules/local_rules.xml << EOF
+  890  <!-- Local rules -->
+  891  <!-- Modify it at your will. -->
+  892  <!-- Copyright (C) 2015, Wazuh Inc. -->
+  893  <group name="local,syslog,sshd,">
+  894  </group>
+  895  EOF'
+  896  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control restart
+  897  docker exec -it single-node-wazuh.manager-1 bash -c 'cat > /var/ossec/etc/rules/local_rules.xml << EOF
+  898  <!-- Local rules -->
+  899  <!-- Copyright (C) 2015, Wazuh Inc. -->
+  900  <!-- Custom rules are in custom_local_rules.xml -->
+  901  <group name="local,syslog,sshd,">
+  902    <rule id="100099" level="0">
+  903      <match>placeholder</match>
+  904      <description>Placeholder rule - do not delete</description>
+  905    </rule>
+  906  </group>
+  907  EOF'
+  908  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control restart
+  909  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control status
+  910  docker exec single-node-wazuh.manager-1 grep -r "sysmon" /var/ossec/logs/alerts/alerts.log 2>/dev/null | tail -5
+  911  docker exec single-node-wazuh.manager-1 grep "rule id" /var/ossec/logs/alerts/alerts.log | grep -A2 "sysmon" | tail -10
+  912  docker exec single-node-wazuh.manager-1 tail -30 /var/ossec/logs/alerts/alerts.log | grep "Rule:"
+  913  cd ~/wazuh-docker/single-node && docker compose down
+  914  cd ~/Shuffle && docker compose down
+  915  cd ~/wazuh-docker/single-node && docker compose up -d
+  916  cd ~/Shuffle && docker compose up -d
+  917  docker ps --format "table {{.Names}}\t{{.Status}}" | grep -E "wazuh|shuffle"
+  918  docker ps --format "table {{.Names}}\t{{.Status}}" | grep wazuh
+  919  sudo fuser -k 1514/tcp 2>/dev/null; cd ~/wazuh-docker/single-node && docker compose up -d
+  920  sudo ss -tlnp | grep 1514
+  921  sudo ss -ulnp | grep 1514
+  922  sudo kill -9 1139 1148
+  923  docker compose up -d
+  924  sudo fuser -k 1514/udp
+  925  docker compose up -d
+  926  sudo service docker restart
+  927  cd ~/wazuh-docker/single-node && docker compose up -d
+  928  docker ps -a | grep 1514
+  929  docker stop tenzir-node && docker rm tenzir-node
+  930  docker compose up -d
+  931  cd ~/Shuffle && docker compose up -d
+  932  docker exec single-node-wazuh.manager-1 grep -A 5 "integration" /var/ossec/etc/ossec.conf | grep -E "name|hook_url|level"
+  933  docker exec -it single-node-wazuh.manager-1 bash
+  934  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_$(docker exec single-node-wazuh.manager-1 grep "webhook_" /var/ossec/etc/ossec.conf | grep -v "f3ed" | grep -oP 'webhook_[a-z0-9-]+')   -H "Content-Type: application/json"   -d '{"body":{"data":{"win":{"eventdata":{"hashes":"SHA256=275A021BBFB6489E54D471899F7DB9D1663FC695EC2FE2A2C4538AABF651FD0F,MD5=44D88612FEA8A8F36DE82E1278ABB02F","image":"C:\\Windows\\System32\\calc.exe"}}},"rule":{"id":"10
+  935  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_$(docker exec single-node-wazuh.manager-1 grep "webhook_" /var/ossec/etc/ossec.conf | grep -v "f3ed" | grep -oP 'webhook_[a-z0-9-]+')   -H "Content-Type: application/json"   -d '{"body":{"data":{"win":{"eventdata":{"hashes":"SHA256=275A021BBFB6489E54D471899F7DB9D1663FC695EC2FE2A2C4538AABF651FD0F,MD5=44D88612FEA8A8F36DE82E1278ABB02F","image":"C:\\Windows\\System32\\calc.exe"}}},"rule":{"id":"100009","level":12,"description":"Sysmon - Test hash VirusTotal"},"agent":{"name":"windows-host","ip":"172.28.80.1"}}}'
+  936  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"body":{"data":{"win":{"eventdata":{"hashes":"SHA256=275A021BBFB6489E54D471899F7DB9D1663FC695EC2FE2A2C4538AABF651FD0F,MD5=44D88612FEA8A8F36DE82E1278ABB02F","image":"C:\\Windows\\System32\\calc.exe"}}},"rule":{"id":"100009","level":12,"description":"Sysmon - Test hash VirusTotal"},"agent":{"name":"windows-host","ip":"172.28.80.1"}}}'
+  937  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"body":{"data":{"win":{"eventdata":{"hashes":"SHA256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,MD5=44D88612FEA8A8F36DE82E1278ABB02F","image":"C:\\Windows\\System32\\cmd.exe"}}},"rule":{"id":"100009","level":12,"description":"Sysmon - Test hash VirusTotal"},"agent":{"name":"windows-host","ip":"172.28.80.1"}}}'
+  938  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"body":{"data":{"win":{"eventdata":{"hashes":"SHA256=44d88612fea8a8f36de82e1278abb02f4e65632f4c3d6a8d3c0b6f5f5c5e5a5b,MD5=44D88612FEA8A8F36DE82E1278ABB02F","image":"C:\\Windows\\System32\\cmd.exe"}}},"rule":{"id":"100009","level":12,"description":"Sysmon - Test hash VirusTotal"},"agent":{"name":"windows-host","ip":"172.28.80.1"}}}'
+  939  docker exec single-node-wazuh.manager-1 grep -A 6 "custom-webhook" /var/ossec/etc/ossec.conf
+  940  docker exec -it single-node-wazuh.manager-1 bash
+  941  docker exec single-node-wazuh.manager-1 grep -A 5 "integration" /var/ossec/etc/ossec.conf | grep -E "name|hook_url|rule_id|level"
+  942  docker exec single-node-wazuh.manager-1 grep -n "integration" /var/ossec/etc/ossec.conf
+  943  docker exec single-node-wazuh.manager-1 sed -n '299,330p' /var/ossec/etc/ossec.conf
+  944  docker cp single-node-wazuh.manager-1:/var/ossec/etc/ossec.conf ~/ossec.conf.bak
+  945  docker exec -it single-node-wazuh.manager-1 bash -c "
+  946  sed -n '1,306p' /var/ossec/etc/ossec.conf > /tmp/ossec_clean.conf
+  947  cat >> /tmp/ossec_clean.conf << 'EOF'
+  948    <integration>
+  949      <name>shuffle</name>
+  950      <hook_url>http://172.28.93.74:3001/api/v1/hooks/webhook_f3ed574e-6a42-458d-8a57-d128a9555183</hook_url>
+  951      <level>7</level>
+  952      <alert_format>json</alert_format>
+  953    </integration>
+  954    <integration>
+  955      <name>shuffle</name>
+  956      <hook_url>http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac</hook_url>
+  957      <rule_id>100009</rule_id>
+  958      <alert_format>json</alert_format>
+  959    </integration>
+  960  </ossec_config>
+  961  EOF
+  962  cp /tmp/ossec_clean.conf /var/ossec/etc/ossec.conf
+  963  "
+  964  docker exec single-node-wazuh.manager-1 sed -n '295,320p' /var/ossec/etc/ossec.conf
+  965  docker cp single-node-wazuh.manager-1:/var/ossec/etc/ossec.conf ~/ossec.conf
+  966  grep -n "</ossec_config>" ~/ossec.conf | head -1
+  967  head -n 305 ~/ossec.conf > ~/ossec_clean.conf
+  968  cat >> ~/ossec_clean.conf << 'EOF'
+  969    <integration>
+  970      <name>shuffle</name>
+  971      <hook_url>http://172.28.93.74:3001/api/v1/hooks/webhook_f3ed574e-6a42-458d-8a57-d128a9555183</hook_url>
+  972      <level>7</level>
+  973      <alert_format>json</alert_format>
+  974    </integration>
+  975    <integration>
+  976      <name>shuffle</name>
+  977      <hook_url>http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac</hook_url>
+  978      <rule_id>100009</rule_id>
+  979      <alert_format>json</alert_format>
+  980    </integration>
+  981  </ossec_config>
+  982  EOF
+  983  tail -20 ~/ossec_clean.conf
+  984  sed -n '285,306p' ~/ossec.conf
+  985  head -n 297 ~/ossec.conf > ~/ossec_clean.conf
+  986  cat >> ~/ossec_clean.conf << 'EOF'
+  987    <integration>
+  988      <name>shuffle</name>
+  989      <hook_url>http://172.28.93.74:3001/api/v1/hooks/webhook_f3ed574e-6a42-458d-8a57-d128a9555183</hook_url>
+  990      <level>7</level>
+  991      <alert_format>json</alert_format>
+  992    </integration>
+  993    <integration>
+  994      <name>shuffle</name>
+  995      <hook_url>http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac</hook_url>
+  996      <rule_id>100009</rule_id>
+  997      <alert_format>json</alert_format>
+  998    </integration>
+  999  </ossec_config>
+ 1000  EOF
+ 1001  tail -25 ~/ossec_clean.conf
+ 1002  head -n 298 ~/ossec.conf > ~/ossec_clean.conf
+ 1003  tail -5 ~/ossec_clean.conf
+ 1004  cat >> ~/ossec_clean.conf << 'EOF'
+ 1005    <integration>
+ 1006      <name>shuffle</name>
+ 1007      <hook_url>http://172.28.93.74:3001/api/v1/hooks/webhook_f3ed574e-6a42-458d-8a57-d128a9555183</hook_url>
+ 1008      <level>7</level>
+ 1009      <alert_format>json</alert_format>
+ 1010    </integration>
+ 1011    <integration>
+ 1012      <name>shuffle</name>
+ 1013      <hook_url>http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac</hook_url>
+ 1014      <rule_id>100009</rule_id>
+ 1015      <alert_format>json</alert_format>
+ 1016    </integration>
+ 1017  </ossec_config>
+ 1018  EOF
+ 1019  tail -15 ~/ossec_clean.conf
+ 1020  docker cp ~/ossec_clean.conf single-node-wazuh.manager-1:/var/ossec/etc/ossec.conf
+ 1021  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control restart
+ 1022  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control status | grep -E "analysisd|integratord"
+ 1023  docker exec single-node-wazuh.manager-1 grep "100009" /var/ossec/logs/alerts/alerts.log | tail -5
+ 1024  docker exec single-node-wazuh.manager-1 tail -50 /var/ossec/logs/alerts/alerts.log | grep -E "Rule:|sysmon"
+ 1025  docker exec single-node-wazuh.manager-1 tail -100 /var/ossec/logs/alerts/alerts.log | grep -E "Rule:|sysmon|Sysmon"
+ 1026  docker exec -it single-node-wazuh.manager-1 sed -i 's/<rule_id>100009<\/rule_id>/<rule_id>67027<\/rule_id>/' /var/ossec/etc/ossec.conf
+ 1027  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control restart
+ 1028  docker exec single-node-wazuh.manager-1 tail -100 /var/ossec/logs/alerts/alerts.json | python3 -m json.tool 2>/dev/null | grep -A2 "hashes" | head -10
+ 1029  docker exec single-node-wazuh.manager-1 grep -A 30 "Rule: 67027" /var/ossec/logs/alerts/alerts.log | head -40
+ 1030  docker exec single-node-wazuh.manager-1 grep -B2 "hashes" /var/ossec/logs/alerts/alerts.log | grep "Rule:" | head -5
+ 1031  docker exec -it single-node-wazuh.manager-1 sed -i 's/<rule_id>67027<\/rule_id>/<rule_id>92052<\/rule_id>/' /var/ossec/etc/ossec.conf
+ 1032  docker exec single-node-wazuh.manager-1 /var/ossec/bin/wazuh-control restart
+ 1033  Start-Process cmd -ArgumentList "/c dir"
+ 1034  docker exec single-node-wazuh.manager-1 grep "92052" /var/ossec/logs/alerts/alerts.log | tail -3
+ 1035  docker exec single-node-wazuh.manager-1 grep -A 5 "webhook_43e60b41" /var/ossec/etc/ossec.conf
+ 1036  docker exec single-node-wazuh.manager-1 tail -20 /var/ossec/logs/integrations.log
+ 1037  "hashes":"MD5=629A...,SHA256=F682AADDA9DEB654885AE17909380A25F7CB1A43AC0934AC425EE8DE4924C7F3,IMPHASH=..."
+ 1038  Start-Process cmd -ArgumentList "/c dir"
+ 1039  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=F682AADDA9DEB654885AE17909380A25F7CB1A43AC0934AC425EE8DE4924C7F3,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\System32\\cmd.exe"}}},"rule":{"id":"92052","level":4,"description":"Windows command prompt started by an abnormal process"},"agent":{"name":"windows-host","ip":"172.28.80.1"}}}'
+ 1040  cd ~/wazuh-docker/single-node && docker compose down
+ 1041  cd ~/Shuffle && docker compose down
+ 1042  cd ~/wazuh-docker/single-node && docker compose up -d
+ 1043  cd ~/Shuffle && docker compose up -d
+ 1044  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=F682AADDA9DEB654885AE17909380A25F7CB1A43AC0934AC425EE8DE4924C7F3,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\System32\\cmd.exe"}}},"rule":{"id":"92052","level":4,"description":"Windows command prompt started by an abnormal process"},"agent":{"name":"windows-host","ip":"172.28.80.1"}}}'
+ 1045  docker ps --format "table {{.Names}}\t{{.Status}}" | grep shuffle
+ 1046  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=F682AADDA9DEB654885AE17909380A25F7CB1A43AC0934AC425EE8DE4924C7F3,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\System32\\cmd.exe"}}},"rule":{"id":"92052","level":4,"description":"Windows command prompt started by an abnormal process"},"agent":{"name":"windows-host","ip":"172.28.80.1"}}}'
+ 1047  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=F682AADDA9DEB654885AE17909380A25F7CB1A43AC0934AC425EE8DE4924C7F3,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\System32\\cmd.exe"}}},"rule":{"id":"92052","level":4,"description":"Windows command prompt started by an abnormal process"},"agent":{"name":"windows-host","ip":"172.28.80.1"}}}'
+ 1048  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=F682AADDA9DEB654885AE17909380A25F7CB1A43AC0934AC425EE8DE4924C7F3,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\System32\\cmd.exe"}}},"rule":{"id":"92052","level":4,"description":"Windows command prompt started by an abnormal process"},"agent":{"name":"windows-host","ip":"172.28.80.1"},"timestamp":"2026-03-16T22:00:00.000+0000"}}'
+ 1049  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=61C0810A23580CF492A6BA4F7654566108331E7A4134C968C2D6A05261B2D8A1,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\Temp\\mimikatz.exe"}}},"rule":{"id":"92052","level":4,"description":"Credential dumping tool detected"},"agent":{"name":"windows-host","ip":"172.28.80.1"},"timestamp":"2026-03-16T22:00:00.000+0000"}}'
+ 1050  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=24d004a104d4d54034dbcffc2a4b19a11f39008a575aa614ea04703480b1022c,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\Temp\\wannacry.exe"}}},"rule":{"id":"100006","level":15,"description":"Credential dumping tool detected"},"agent":{"name":"windows-host","ip":"172.28.80.1"},"timestamp":"2026-03-16T22:10:00.000+0000"}}'
+ 1051  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=24d004a104d4d54034dbcffc2a4b19a11f39008a575aa614ea04703480b1022c,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\
+ 1052  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=24d004a104d4d54034dbcffc2a4b19a11f39008a575aa614ea04703480b1022c,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\
+ 1053  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=24d004a104d4d54034dbcffc2a4b19a11f39008a575aa614ea04703480b1022c,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\Temp\\wannacry.exe"}}},"rule":{"id":"100006","level":15,"description":"Credential dumping tool detected"},"agent":{"name":"windows-host","ip":"172.28.80.1"},"timestamp":"2026-03-16T22:10:00.000+0000"}}'
+ 1054  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=24d004a104d4d54034dbcffc2a4b19a11f39008a575aa614ea04703480b1022c,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\Temp\\wannacry.exe"}}},"rule":{"id":"100006","level":15,"description":"Credential dumping tool detected"},"agent":{"name":"windows-host","ip":"172.28.80.1"},"timestamp":"2026-03-16T22:10:00.000+0000"}}'
+ 1055  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=24d004a104d4d54034dbcffc2a4b19a11f39008a575aa614ea04703480b1022c,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\Temp\\wannacry.exe"}}},"rule":{"id":"100006","level":15,"description":"Credential dumping tool detected"},"agent":{"name":"windows-host","ip":"172.28.80.1"},"timestamp":"2026-03-16T22:10:00.000+0000"}}'
+ 1056  curl -X POST http://172.28.93.74:3001/api/v1/hooks/webhook_43e60b41-074a-49b5-ad70-9f55df6594ac   -H "Content-Type: application/json"   -d '{"all_fields":{"data":{"win":{"eventdata":{"hashes":"MD5=629A9DE29FCD99366A66C651A535A5A6,SHA256=24d004a104d4d54034dbcffc2a4b19a11f39008a575aa614ea04703480b1022c,IMPHASH=B0F049C014592B156EB1FA857E99CEB9","image":"C:\\Windows\\Temp\\wannacry.exe"}}},"rule":{"id":"100006","level":15,"description":"Credential dumping tool detected"},"agent":{"name":"windows-host","ip":"172.28.80.1"},"timestamp":"2026-03-16T22:10:00.000+0000"}}'
+ 1057  cd ~/wazuh-docker/single-node && docker compose down
+ 1058  cd ~/Shuffle && docker compose down
+ 1059  ls
+ 1060  free -h
+ 1061  cd ~/wazuh-docker/single-node && docker compose up -d
+ 1062  cd ~/Shuffle && docker compose up -d
+ 1063  mkdir ~/thehive && cd ~/thehive
+ 1064  cat > docker-compose.yml << 'EOF'
+ 1065  version: "3.8"
+ 1066  services:
+ 1067    cassandra:
+ 1068      image: cassandra:4
+ 1069      container_name: thehive-cassandra
+ 1070      restart: unless-stopped
+ 1071      environment:
+ 1072        CASSANDRA_CLUSTER_NAME: thehive
+ 1073      volumes:
+ 1074        - cassandra-data:/var/lib/cassandra
+ 1075    elasticsearch:
+ 1076      image: elasticsearch:7.17.12
+ 1077      container_name: thehive-elasticsearch
+ 1078      restart: unless-stopped
+ 1079      environment:
+ 1080        - discovery.type=single-node
+ 1081        - xpack.security.enabled=false
+ 1082        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+ 1083      volumes:
+ 1084        - elasticsearch-data:/usr/share/elasticsearch/data
+ 1085    thehive:
+ 1086      image: strangebee/thehive:5.2
+ 1087      container_name: thehive
+ 1088      restart: unless-stopped
+ 1089      depends_on:
+ 1090        - cassandra
+ 1091        - elasticsearch
+ 1092      ports:
+ 1093        - "9000:9000"
+ 1094      environment:
+ 1095        - JVM_OPTS=-Xms512m -Xmx512m
+ 1096      command:
+ 1097        - --secret
+ 1098        - "SOCLabSecret2026"
+ 1099        - "--cql-hostnames"
+ 1100        - "cassandra"
+ 1101        - "--index-backend"
+ 1102        - "elasticsearch"
+ 1103        - "--es-hostnames"
+ 1104        - "elasticsearch"
+ 1105  volumes:
+ 1106    cassandra-data:
+ 1107    elasticsearch-data:
+ 1108  EOF
+ 1109  docker compose up -d
+ 1110  docker ps --format "table {{.Names}}\t{{.Status}}" | grep thehive
+ 1111  cd ~/wazuh-docker/single-node && docker compose down
+ 1112  cd ~/Shuffle && docker compose down
+ 1113  cd ~/thehive && docker compose down
+ 1114  cd ~/wazuh-docker/single-node && docker compose up -d
+ 1115  cd ~/Shuffle && docker compose up -d
+ 1116  cd ~/thehive && docker compose up -d
+ 1117  docker logs thehive --tail 30
+ 1118  docker logs thehive --tail 5 -f
+ 1119  cd ~/wazuh-docker/single-node && docker compose down
+ 1120  cd ~/Shuffle && docker compose down
+ 1121  cd ~/thehive && docker compose down
+ 1122  mkdir -p ~/soc-automation-lab/{config,rules,playbooks,screenshots,docker}
+ 1123  cd ~/soc-automation-lab
+ 1124  docker cp single-node-wazuh.manager-1:/var/ossec/etc/rules/custom_local_rules.xml ~/soc-automation-lab/rules/
+ 1125  cp ~/wazuh-docker/single-node/config/wazuh_cluster/wazuh_manager.conf ~/soc-automation-lab/config/ossec.conf
+ 1126  cp ~/wazuh-docker/single-node/docker-compose.yml ~/soc-automation-lab/docker/wazuh-docker-compose.yml
+ 1127  cp ~/Shuffle/docker-compose.yml ~/soc-automation-lab/docker/shuffle-docker-compose.yml
+ 1128  cp ~/thehive/docker-compose.yml ~/soc-automation-lab/docker/thehive-docker-compose.yml
+ 1129  cd ~/wazuh-docker/single-node && docker compose up -d
+ 1130  cd ~/Shuffle && docker compose up -d
+ 1131  cd ~/thehive && docker compose up -d
+ 1132  docker cp single-node-wazuh.manager-1:/var/ossec/etc/rules/custom_local_rules.xml ~/soc-automation-lab/rules/
+ 1133  cp ~/wazuh-docker/single-node/config/wazuh_cluster/wazuh_manager.conf ~/soc-automation-lab/config/ossec.conf
+ 1134  cp ~/wazuh-docker/single-node/docker-compose.yml ~/soc-automation-lab/docker/wazuh-docker-compose.yml
+ 1135  cp ~/Shuffle/docker-compose.yml ~/soc-automation-lab/docker/shuffle-docker-compose.yml
+ 1136  cp ~/thehive/docker-compose.yml ~/soc-automation-lab/docker/thehive-docker-compose.yml
+ 1137  cp -r ~/soc-automation-lab /mnt/c/Users/WavyCorp/Desktop/soc-automation-lab
+ 1138  cat > ~/soc-automation-lab/deploy.sh << 'EOF'
+ 1139  #!/bin/bash
+ 1140  echo "🚀 Déploiement du lab SOC..."
+ 1141  # Paramètres système
+ 1142  echo "⚙️  Configuration système..."
+ 1143  sudo sysctl -w vm.max_map_count=262144
+ 1144  # Démarrer Wazuh
+ 1145  echo "🛡️  Démarrage Wazuh SIEM..."
+ 1146  cd ~/wazuh-docker/single-node && docker compose up -d
+ 1147  # Attendre Wazuh
+ 1148  echo "⏳ Attente démarrage Wazuh (60s)..."
+ 1149  sleep 60
+ 1150  # Démarrer Shuffle
+ 1151  echo "🔄 Démarrage Shuffle SOAR..."
+ 1152  cd ~/Shuffle && docker compose up -d
+ 1153  # Démarrer TheHive
+ 1154  echo "🐝 Démarrage TheHive..."
+ 1155  cd ~/thehive && docker compose up -d
+ 1156  echo ""
+ 1157  echo "✅ Lab SOC déployé !"
+ 1158  echo ""
+ 1159  echo "📊 Wazuh Dashboard : https://localhost (admin/SecretPassword)"
+ 1160  echo "🔄 Shuffle SOAR    : http://localhost:3001"
+ 1161  echo "🐝 TheHive         : http://localhost:9000 (admin@thehive.local/secret)"
+ 1162  echo ""
+ 1163  echo "⚠️  Attends 2-3 minutes que tous les services soient prêts."
+ 1164  EOF
+ 1165  cat > ~/soc-automation-lab/stop.sh << 'EOF'
+ 1166  #!/bin/bash
+ 1167  echo "🛑 Arrêt du lab SOC..."
+ 1168  cd ~/thehive && docker compose down
+ 1169  cd ~/Shuffle && docker compose down
+ 1170  cd ~/wazuh-docker/single-node && docker compose down
+ 1171  echo "✅ Tous les services arrêtés."
+ 1172  EOF
+ 1173  chmod +x ~/soc-automation-lab/deploy.sh ~/soc-automation-lab/stop.sh
+ 1174  cp ~/soc-automation-lab/deploy.sh /mnt/c/Users/WavyCorp/Desktop/soc-automation-lab/
+ 1175  cp ~/soc-automation-lab/stop.sh /mnt/c/Users/WavyCorp/Desktop/soc-automation-lab/
+ 1176  cd ~/wazuh-docker/single-node && docker compose down
+ 1177  cd ~/Shuffle && docker compose down
+ 1178  cd ~/thehive && docker compose down
+ 1179  watch -n 3 kubectl get hpa -n prod-python-app
+ 1180  minikube service caddy-svc -n prod-caddy --url
+ 1181  # Installer k6
+ 1182  sudo apt install k6 -y 2>/dev/null || (sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg   --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69 && echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main"   | sudo tee /etc/apt/sources.list.d/k6.list && sudo apt update && sudo apt install k6 -y)
+ 1183  sudo snap install k6
+ 1184  cd ~/k8s-tp
+ 1185  TARGET_URL=http://127.0.0.1:34917 k6 run load-test/load-test.js
+ 1186  kubectl port-forward svc/caddy-svc 8080:80 -n prod-caddy --address 0.0.0.0
+ 1187  cd ~/k8s-tp
+ 1188  TARGET_URL=http://127.0.0.1:8080 k6 run load-test/load-test.js
+ 1189  # Port-forward Caddy si pas déjà fait
+ 1190  kubectl port-forward svc/caddy-svc 8080:80 -n prod-caddy --address 0.0.0.0
+ 1191  # Vérifier le HPA Caddy pendant le test
+ 1192  watch -n 3 kubectl get hpa -n prod-caddy
+ 1193  kubectl port-forward svc/caddy-svc 8081:80 -n prod-caddy --address 0.0.0.0
+ 1194  watch -n 3 kubectl get hpa -n prod-python-app
+ 1195  watch -n 3 kubectl get pods -n prod-python-app
+ 1196  watch -n 3 kubectl get hpa -n prod-caddy
+ 1197  ls
+ 1198  cd k8s-tp/
+ 1199  ls
+ 1200  kubectl port-forward svc/netdata-svc 19999:19999 -n monitoring --address 0.0.0.0
+ 1201  ls
+ 1202  tar -xzf k8s-tp.tar.gz
+ 1203  cd k8s-tp
+ 1204  kubectl apply -f python-app/namespace.yaml
+ 1205  kubectl apply -f python-app/deployment.yaml
+ 1206  kubectl apply -f python-app/service.yaml
+ 1207  kubectl apply -f python-app/hpa.yaml
+ 1208  kubectl apply -f caddy/namespace.yaml
+ 1209  kubectl apply -f caddy/configmap.yaml
+ 1210  kubectl apply -f caddy/deployment.yaml
+ 1211  kubectl apply -f caddy/service.yaml
+ 1212  kubectl apply -f caddy/hpa.yaml
+ 1213  kubectl apply -f observability/netdata.yaml
+ 1214  minikube service netdata-svc -n monitoring --url
+ 1215  kubectl get pods -n monitoring
+ 1216  kubectl describe pod netdata-6nk6q -n monitoring
+ 1217  ls
+ 1218  cat > observability/netdata.yaml << 'EOF'
+ 1219  apiVersion: v1
+ 1220  kind: Namespace
+ 1221  metadata:
+ 1222    name: monitoring
+ 1223  ---
+ 1224  apiVersion: v1
+ 1225  kind: ServiceAccount
+ 1226  metadata:
+ 1227    name: netdata
+ 1228    namespace: monitoring
+ 1229  ---
+ 1230  apiVersion: rbac.authorization.k8s.io/v1
+ 1231  kind: ClusterRole
+ 1232  metadata:
+ 1233    name: netdata
+ 1234  rules:
+ 1235    - apiGroups: [""]
+ 1236      resources: [nodes, nodes/proxy, nodes/metrics, services, endpoints, pods, namespaces]
+ 1237      verbs: ["get", "list", "watch"]
+ 1238    - apiGroups: ["apps"]
+ 1239      resources: [deployments, replicasets, daemonsets, statefulsets]
+ 1240      verbs: ["get", "list", "watch"]
+ 1241    - apiGroups: ["autoscaling"]
+ 1242      resources: [horizontalpodautoscalers]
+ 1243      verbs: ["get", "list", "watch"]
+ 1244    - nonResourceURLs: ["/metrics", "/healthz"]
+ 1245      verbs: ["get"]
+ 1246  ---
+ 1247  apiVersion: rbac.authorization.k8s.io/v1
+ 1248  kind: ClusterRoleBinding
+ 1249  metadata:
+ 1250    name: netdata
+ 1251  roleRef:
+ 1252    apiGroup: rbac.authorization.k8s.io
+ 1253    kind: ClusterRole
+ 1254    name: netdata
+ 1255  subjects:
+ 1256    - kind: ServiceAccount
+ 1257      name: netdata
+ 1258      namespace: monitoring
+ 1259  ---
+ 1260  apiVersion: apps/v1
+ 1261  kind: DaemonSet
+ 1262  metadata:
+ 1263    name: netdata
+ 1264    namespace: monitoring
+ 1265    labels:
+ 1266      app: netdata
+ 1267  spec:
+ 1268    selector:
+ 1269      matchLabels:
+ 1270        app: netdata
+ 1271    template:
+ 1272      metadata:
+ 1273        labels:
+ 1274          app: netdata
+ 1275      spec:
+ 1276        serviceAccountName: netdata
+ 1277        dnsPolicy: ClusterFirst
+ 1278        tolerations:
+ 1279          - operator: Exists
+ 1280        containers:
+ 1281          - name: netdata
+ 1282            image: netdata/netdata:latest
+ 1283            imagePullPolicy: Always
+ 1284            ports:
+ 1285              - name: netdata
+ 1286                containerPort: 19999
+ 1287                protocol: TCP
+ 1288            env:
+ 1289              - name: NETDATA_CLAIM_TOKEN
+ 1290                value: ""
+ 1291              - name: NETDATA_CLAIM_URL
+ 1292                value: ""
+ 1293              - name: MY_NODE_NAME
+ 1294                valueFrom:
+ 1295                  fieldRef:
+ 1296                    fieldPath: spec.nodeName
+ 1297            securityContext:
+ 1298              capabilities:
+ 1299                add: [SYS_PTRACE, SYS_ADMIN]
+ 1300              allowPrivilegeEscalation: true
+ 1301            volumeMounts:
+ 1302              - name: proc
+ 1303                mountPath: /host/proc
+ 1304                readOnly: true
+ 1305              - name: sys
+ 1306                mountPath: /host/sys
+ 1307                readOnly: true
+ 1308              - name: os-release
+ 1309                mountPath: /host/etc/os-release
+ 1310                readOnly: true
+ 1311              - name: docker-sock
+ 1312                mountPath: /var/run/docker.sock
+ 1313                readOnly: true
+ 1314              - name: netdata-lib
+ 1315                mountPath: /var/lib/netdata
+ 1316              - name: netdata-cache
+ 1317                mountPath: /var/cache/netdata
+ 1318            resources:
+ 1319              requests:
+ 1320                cpu: "100m"
+ 1321                memory: "256Mi"
+ 1322              limits:
+ 1323                cpu: "500m"
+ 1324                memory: "512Mi"
+ 1325            livenessProbe:
+ 1326              httpGet:
+ 1327                path: /api/v1/info
+ 1328                port: 19999
+ 1329              initialDelaySeconds: 30
+ 1330              periodSeconds: 30
+ 1331            readinessProbe:
+ 1332              httpGet:
+ 1333                path: /api/v1/info
+ 1334                port: 19999
+ 1335              initialDelaySeconds: 15
+ 1336              periodSeconds: 10
+ 1337        volumes:
+ 1338          - name: proc
+ 1339            hostPath:
+ 1340              path: /proc
+ 1341          - name: sys
+ 1342            hostPath:
+ 1343              path: /sys
+ 1344          - name: os-release
+ 1345            hostPath:
+ 1346              path: /etc/os-release
+ 1347          - name: docker-sock
+ 1348            hostPath:
+ 1349              path: /var/run/docker.sock
+ 1350          - name: netdata-lib
+ 1351            emptyDir: {}
+ 1352          - name: netdata-cache
+ 1353            emptyDir: {}
+ 1354  ---
+ 1355  apiVersion: v1
+ 1356  kind: Service
+ 1357  metadata:
+ 1358    name: netdata-svc
+ 1359    namespace: monitoring
+ 1360    labels:
+ 1361      app: netdata
+ 1362  spec:
+ 1363    selector:
+ 1364      app: netdata
+ 1365    ports:
+ 1366      - name: netdata
+ 1367        protocol: TCP
+ 1368        port: 19999
+ 1369        targetPort: 19999
+ 1370        nodePort: 30999
+ 1371    type: NodePort
+ 1372  EOF
+ 1373  kubectl delete daemonset netdata -n monitoring
+ 1374  kubectl apply -f observability/netdata.yaml
+ 1375  kubectl get pods -n monitoring -w
+ 1376  minikube service netdata-svc -n monitoring --url
+ 1377  ls
+ 1378  cd observability/
+ 1379  ls
+ 1380  cd ..
+ 1381  ls
+ 1382  cd load-test/
+ 1383  ls
+ 1384  cd ..
+ 1385  ls
+ 1386  cd ..
+ 1387  ls
+ 1388  cd k8s-tp/
+ 1389  ls
+ 1390  cat summary.json 
+ 1391  k events
+ 1392  k top pod
+ 1393  ls
+ 1394  minikube start --cpus=4 --memory=6144 --driver=docker
+ 1395  minikube addons enable metrics-server
+ 1396  minikube status
+ 1397  kubectl get pods --all-namespaces
+ 1398  minikube stop
+ 1399  kubectl delete all --all -n default
+ 1400  kubectl delete all --all -n monitoring
+ 1401  kubectl delete all --all -n prod-caddy
+ 1402  kubectl delete all --all -n prod-python-app
+ 1403  minikube status
+ 1404  kubectl get pods
+ 1405  minikube start
+ 1406  kubectl delete all --all -n default
+ 1407  kubectl delete all --all -n monitoring
+ 1408  kubectl delete all --all -n prod-caddy
+ 1409  kubectl delete all --all -n prod-python-app
+ 1410  ls
+ 1411  rm -rf k8s-tp.tar.gz 
+ 1412  ls
+ 1413  kubectl get all --all-namespaces
+ 1414  minikube stop
+ 1415  ls
+ 1416  rm -rf django-datta-able/
+ 1417  ls
+ 1418  rm -rf k8s-tp/
+ 1419  ls
+ 1420  kubectl port-forward svc/ecommerce-svc-laia-25-03-2026 8085:5085   -n ecommerce-laia-25-03-2026 --address 0.0.0.0
+ 1421  kubectl logs -n ecommerce-laia-25-03-2026 deployment/ecommerce-laia-25-03-2026 --tail=30
+ 1422  kubectl port-forward svc/ecommerce-svc-laia-25-03-2026 8085:5085   -n ecommerce-laia-25-03-2026 --address 0.0.0.0
+ 1423  kubectl port-forward deployment/ecommerce-laia-25-03-2026 5005:5005   -n ecommerce-laia-25-03-2026 --address 0.0.0.0
+ 1424  kubectl port-forward deployment/ecommerce-laia-25-03-2026 5005:5005   -n ecommerce-laia-25-03-2026 --address 0.0.0.0
+ 1425  kubectl port-forward svc/ecommerce-svc-laia-25-03-2026 5005:5085 -n ecommerce-laia-25-03-2026
+ 1426  kubectl logs -l app=ecommerce-laia-25-03-2026 -n ecommerce-laia-25-03-2026 --tail=50
+ 1427  kubectl logs -f -l app=ecommerce-laia-25-03-2026 -n ecommerce-laia-25-03-2026
+ 1428  kubectl port-forward svc/ecommerce-svc-laia-25-03-2026 5005:5085 -n ecommerce-laia-25-03-2026
+ 1429  ls
+ 1430  cd exam/
+ 1431  ls
+ 1432  cd k8s-poc-LAIA-25-03-2026/
+ 1433  ls
+ 1434  cd deployments/
+ 1435  ls
+ 1436  nano ecommerce-laia-25-03-2026.yaml 
+ 1437  kubectl apply -f ecommerce-laia-25-03-2026.yaml 
+ 1438  kubectl rollout restart deploy/ecommerce-laia-25-03-2026 -n ecommerce-laia-25-03-2026
+ 1439  kubectl get hpa -A
+ 1440  cat ecommerce-laia-25-03-2026.yaml 
+ 1441  kubectl rollout history deployment ecommerce-laia-25-03-2026 -n prod-laia-25-03-2026
+ 1442  kubectl port-forward svc/excalidraw-svc-laia-25-03-2026 8090:80   -n excalidraw-laia-25-03-2026 --address 0.0.0.0
+ 1443  kubectl exec -it   $(kubectl get pods -n ecommerce-laia-25-03-2026 -o name | head -1)   -n ecommerce-laia-25-03-2026 -- python manage.py shell -c   "from django.conf import settings; print('SESSION_ENGINE:', settings.SESSION_ENGINE); print('DATABASES:', settings.DATABASES)"
+ 1444  edge://settings/content/cookies
+ 1445  → "Allow" → Ajouter → localhost:5085
+ 1446  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh && helm version
+ 1447  helm repo add netdata https://netdata.github.io/helmchart/
+ 1448  helm install netdata netdata/netdata
+ 1449  kubectl get svc -A | grep netdata
+ 1450  kubectl get all -A | grep netdata
+ 1451  helm list -A
+ 1452  kubectl get pods -n default | grep netdata
+ 1453  helm uninstall netdata
+ 1454  helm repo add netdata https://netdata.github.io/helmchart/
+ 1455  helm repo update
+ 1456  helm install netdata netdata/netdata -n default
+ 1457  kubectl get pods -n default | grep netdata
+ 1458  kubectl port-forward svc/netdata 19999:19999 -n default --address 0.0.0.0
+ 1459  kubectl port-forward   $(kubectl get pods -n preprod-laia-25-03-2026 -o name | head -1)   5087:5005 -n preprod-laia-25-03-2026 --address 0.0.0.0
+ 1460  cd ~/exam/k8s-poc-LAIA-25-03-2026
+ 1461  history > logs/history-projet-laia-25-03-2026.log

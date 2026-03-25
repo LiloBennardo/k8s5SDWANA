@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ecommerce-laia-25-03-2026
+  labels:
+    name: ecommerce-laia-25-03-2026
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecommerce-svc-laia-25-03-2026
+  labels:
+    app: ecommerce-svc-laia-25-03-2026
+  namespace: ecommerce-laia-25-03-2026
+spec:
+  type: LoadBalancer
+  selector:
+    app: ecommerce-laia-25-03-2026
+  ports:
+  - port: 5085
+    protocol: TCP
+    targetPort: 5085
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-configmap-laia-25-03-2026
+  namespace: ecommerce-laia-25-03-2026
+data:
+  DEBUG: "True"
+  DEMO_MODE: "True"
+  SERVER_ADDRESS: "http://127.0.0.1:40147/"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ecommerce-secret-laia-25-03-2026
+  namespace: ecommerce-laia-25-03-2026
+type: Opaque
+data:
+  STRIPE_PUBLISHABLE_KEY: cGtfdGVzdF81MVFySzZGTHphN2x6MWtSYU5ObGJnQ0dRc0k4R3doUEN3Q05wRmRRcmhRUjViUjl5ZlU3UEp2YVVQWkRkM0E3Zzd0NGl1dG1Kd1FZeWlGR1kwOHNBYVpaNjAwdzdDT09KV0Q=
+  STRIPE_SECRET_KEY: c2tfdGVzdF81MVFySzZGTHphN2x6MWtSYVVod3ZCTDdBajRZcmd5YmZEaW40NTNMTDk3T3BhNUl0SDh4bHhBSUxwcUJGYWdWamYzSWZTMFJNZEhhYkJXZkthVnpNQkV4bjAwOXp2Q0R6M1g=
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-laia-25-03-2026
+  labels:
+    app: ecommerce-laia-25-03-2026
+  namespace: ecommerce-laia-25-03-2026
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ecommerce-laia-25-03-2026
+  template:
+    metadata:
+      labels:
+        app: ecommerce-laia-25-03-2026
+    spec:
+      containers:
+      - name: ecommerce-laia-25-03-2026
+        image: tomcruise57/rocket-ecommerce-lia-25-03-2026:latest
+        # --- MODIFICATION ICI ---
+        # On force Gunicorn avec un timeout de 120 secondes
+        command: ["gunicorn"]
+        args: ["core.wsgi:application", "--bind", "0.0.0.0:5085", "--timeout", "120"]
+        # ------------------------
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 5085
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 100m
+          limits:
+            memory: 512Mi
+            cpu: 450m
+        envFrom:
+        - secretRef:
+            name: ecommerce-secret-laia-25-03-2026
+        - configMapRef:
+            name: ecommerce-configmap-laia-25-03-2026
