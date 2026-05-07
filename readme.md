@@ -1,11 +1,5 @@
 # Projet Kubernetes — POC Ecommerce
-## Groupe LAIA — 25/03/2026
-
-**Membres :**
-- Lilo BENNARDO
-- Ayman DABDA
-- Alicia OLIVIERI
-- Ilyan TAYBI
+## 25/03/2026
 
 **Repo Git :** https://github.com/LiloBennardo/k8s5SDWANA.git
 
